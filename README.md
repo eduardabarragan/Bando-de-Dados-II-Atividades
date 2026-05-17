@@ -1,4 +1,5 @@
 # Bando-de-Dados-II-Atividades
+Alunas: Eduarda Barragan e Julia Marques.
 
 ## Atividade 02:
 Respondida no arquivo SQL: atividades02.sql
