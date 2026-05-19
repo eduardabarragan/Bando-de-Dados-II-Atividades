@@ -318,6 +318,21 @@ Um sistema bancário sem mecanismos de bloqueio falharia em garantir a consistê
 ### Pergunta 40 - Qual a importância de observar a ordem de execução das transações em testes práticos?
 A importância de observar a ordem de execução das transações em testes práticos é crucial para simular e verificar como o sistema lida com a concorrência e garante o isolamento. A ordem de execução (ou o entrelaçamento das operações) é o que define se ocorrerão conflitos e quebras de consistência, permitindo a identificação de inconsistências como a Atualização Perdida ou a Leitura Suja em cenários onde transações acessam "registros iguais". 
 
+### Questão 41 - Considerando todos os experimentos realizados, explique de forma integrada como concorrência, bloqueios e isolamento atuam juntos para evitar inconsistências no banco de dados.
+O relacionamento entre concorrência, bloqueios e isolamento é a base do controle transacional em um banco de dados, agindo em conjunto para manter a consistência dos dados. A concorrência representa o risco de violação da consistência quando transações simultâneas acessam registros iguais. Sem controle, isso leva a inconsistências como a Atualização Perdida e a Leitura Suja. O isolamento é o objetivo, garantindo que as transações se comportem como se fossem executadas de forma serializada. Para alcançar o isolamento, o mecanismo de bloqueio é usado para forçar a serialização das operações. Isso ocorre quando uma transação bloqueadora obtém exclusividade, obrigando outras a "ficar esperando" até que o recurso seja liberado.
+
+### Questão 42 - Adapte os testes realizados para um sistema de estoque em que dois usuários tentam vender o mesmo produto simultaneamente. Explique quais riscos existem e como o banco pode evitá-los.
+Em um sistema de estoque, dois usuários tentando vender o mesmo produto ao mesmo tempo podem gerar problemas como estoque negativo ou venda duplicada. Isso acontece quando ambos leem a quantidade disponível antes da atualização. O banco pode evitar esses problemas usando controle de concorrência, como bloqueio de linha (FOR UPDATE), garantindo que apenas uma transação altere o estoque por vez, além de utilizar transações para manter a consistência.
+
+### Questão 43 - Adapte os testes para um sistema de matrícula acadêmica, em que duas pessoas tentam ocupar a última vaga da mesma disciplina ao mesmo tempo.
+Em um sistema de matrícula acadêmica, duas pessoas tentando ocupar a última vaga da mesma disciplina ao mesmo tempo podem causar excesso de matrículas além da capacidade permitida. O banco evita esse problema utilizando bloqueios e transações, garantindo que a verificação de vagas, a redução da disponibilidade e o registro da matrícula ocorram de forma atômica e isolada.
+
+### Questão 44 - Explique como você organizaria um experimento prático no VS Code com duas sessões para demonstrar espera por lock a outros estudantes.
+Para organizar um experimento no VS Code com duas sessões, eu abriria duas conexões diferentes com o banco de dados (dois terminais ou abas SQL). Na primeira sessão, iniciaria uma transação e usaria SELECT com o FOR UPDATE para bloquear um registro, mantendo a transação aberta. Na segunda sessão, tentaria atualizar o mesmo registro para mostrar que ela fica em espera até a liberação do lock. Depois, finalizaria a primeira sessão com COMMIT para liberar a segunda. Isso demonstra claramente o funcionamento de bloqueio e espera por lock.
+
+### Questão 45 - Compare um cenário com controle de concorrência e outro sem controle de concorrência, destacando os impactos sobre a confiabilidade dos dados.
+Em um cenário com controle de concorrência, o banco garante consistência, evitando conflitos como atualizações perdidas e mantendo a integridade dos dados mesmo com várias transações simultâneas. Já em um cenário sem controle de concorrência, podem ocorrer problemas como dados incorretos, sobrescrita de informações e inconsistências, comprometendo a confiabilidade do sistema.
+
 ## Atividade 04 - Prática 08 - Tarefa final
 As questões práticas estão implementadas no arquivo SQL: atividade04.sql
 
