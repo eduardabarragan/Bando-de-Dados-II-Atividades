@@ -77,7 +77,7 @@ O FOR UPDATE, bloqueia as linhas selecionadas até que o COMMIT ou ROLLBACK seja
 A transação 1 bloqueia apenas a linha onde id = 1 e a transação 2 bloqueia apenas a linha onde id = 4. Como são registros distintos, não há conflito direto de locks, então as transações conseguem executar em paralelo sem disputar o mesmo recurso.
 
 ### Pergunta 17 - O que esse teste mostra sobre concorrência em linhas diferentes da tabela?
-Apesar de serem linhas diferentes e que supostamente não têm interferência uma sobre a outra, ao rodar o código antes de dar o COMMIT, a outra tabela permanece bloqueada para visualização, contudo, após realizarmos o COMMIT da primeira tabela e tentarmos executar a segunda ela irá mostrar o resultado das duas execuções que testamos.
+Esse teste mostra que o banco de dados permite concorrência eficiente quando as transações operam em linhas diferentes. Como não há disputa pelo mesmo registro, não ocorre bloqueio significativo entre as operações, o que melhora o desempenho e aumenta a capacidade de processamento simultâneo do sistema.
 
 ### Pergunta 18 - Qual é a importância de registrar movimentações além de atualizar os saldos?
 É importante para guardar o histórico de atualizações.
