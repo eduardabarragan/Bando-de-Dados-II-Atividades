@@ -85,11 +85,11 @@ JOIN disciplina d
 -- 24. Liste apenas os alunos matriculados em disciplinas do departamento Computacao.
 SELECT a.nome AS aluno,
        d.nome AS disciplina
-FROM matricula m
+FROM disciplina d
+JOIN matricula m
+    ON d.id = m.disciplina_id
 JOIN aluno a
-    ON m.aluno_id = a.id
-JOIN disciplina d
-    ON m.disciplina_id = d.id
+    ON a.id = m.aluno_id
 WHERE d.departamento = 'Computacao';
 
 -- 25. Mostre o nome dos alunos que tiveram matrícula com situação Reprovado.
@@ -127,16 +127,19 @@ GROUP BY a.id, a.nome;
 
 -- 29. Liste os alunos cuja média de notas foi maior que 8.
 SELECT a.nome
-FROM aluno a
-JOIN matricula m ON a.id = m.aluno_id
-GROUP BY a.id, a.nome
-HAVING AVG(m.nota) > 8
-
+FROM (
+    SELECT aluno_id
+    FROM matricula
+    GROUP BY aluno_id
+    HAVING AVG(nota) > 8
+) m
+JOIN aluno a
+ON a.id = m.aluno_id;
 
 -- 30. Mostre o departamento e a quantidade de matrículas em disciplinas de cada departamento.
 SELECT d.departamento,
-      COUNT(*) AS qtd_matriculas
-FROM matricula m
-JOIN disciplina d
-    ON d.id = m.disciplina_id
+       COUNT(*) AS qtd_matriculas
+FROM disciplina d
+JOIN matricula m
+    ON m.disciplina_id = d.id
 GROUP BY d.departamento;
